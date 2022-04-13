@@ -1,0 +1,44 @@
+version: '3.4'
+
+services:
+  zk-pwd:
+    depends_on:
+      - db
+    env_file:
+      - ./.env.local
+    volumes:
+      - ./:/var/www/html
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - api-net
+      - app-net
+
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=zk_pwd
+      - MYSQL_PASSWORD=myadmin
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-net
+      - api-net
+    logging:
+      options:
+        max-size: "100m"
+        max-file: "3"
+
+networks:
+  api-net:
+    external:
+      name: api-net
+  app-net:
+    driver: bridge
+
+volumes:
+  db-data: {}
