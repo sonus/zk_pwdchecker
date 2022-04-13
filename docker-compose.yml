@@ -35,8 +35,7 @@ services:
 
 networks:
   api-net:
-    external:
-      name: api-net
+    name: api-net
   app-net:
     driver: bridge
 
