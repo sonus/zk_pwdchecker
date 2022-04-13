@@ -1,0 +1,9 @@
+api_platform:
+    defaults:
+        pagination_enabled: false
+    mapping:
+        paths: ['%kernel.project_dir%/config/api_platform/resources']
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        versions: [3]
