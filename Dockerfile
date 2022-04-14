@@ -53,12 +53,6 @@ COPY docker/config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 #Adding Entrypoint
 COPY docker/config/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 
-# Dev Setup only for generater
-# COPY development/main.go ./
-# COPY development/go.mod ./
-# COPY development/go.sum ./
-# RUN go build
-
 # Setup document root
 RUN mkdir -p /var/www/html
 
