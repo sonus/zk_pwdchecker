@@ -19,10 +19,24 @@ class PasswordControllerTest extends ApiTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testPasswordApi(): void
+    public function testEmptyPassword(): void
     {
         $body = ['password' => ''];
-        $response = $this->client->request('POST', '/passwords', ['body' => $body]);
+        $response = $this->client->request('POST', '/passwords', ['json' => $body]);
         $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testNoPasswordParameter(): void
+    {
+        $body = ['not_password_param' => 'iamssomeotherparam'];
+        $response = $this->client->request('POST', '/passwords', ['json' => $body]);
+        $this->assertResponseStatusCodeSame(400);
+    }
+
+    public function testSomePassword(): void
+    {
+        $body = ['password' => 'sdfsdfsdfs'];
+        $response = $this->client->request('POST', '/passwords', ['json' => $body]);
+        $this->assertResponseStatusCodeSame(204);
     }
 }

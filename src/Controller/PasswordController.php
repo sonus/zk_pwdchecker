@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException;
+use App\Service\Password\PasswordDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -17,10 +18,22 @@ class PasswordController extends AbstractController
     ) {
     }
 
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(Request $request): Response
     {
-        return $this->json([
-            'count' => 1,
-        ], Response::HTTP_OK);
+        try {
+            $searchLogDto = $this->serializer->deserialize(
+                $request->getContent(),
+                PasswordDto::class,
+                'json'
+            );
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException($e->getMessage());
+        }
+        $errors = $this->validator->validate($searchLogDto);
+        if (count($errors)) {
+            throw new ValidationException($errors);
+        }
+
+        return $this->json(data: [], status: Response::HTTP_NO_CONTENT);
     }
 }
