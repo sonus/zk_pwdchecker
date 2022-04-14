@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service\Password;
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class PasswordDto
 {
